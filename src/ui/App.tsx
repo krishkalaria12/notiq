@@ -1,10 +1,10 @@
-import Editor from "./components/editor/editor"
+import Wrapper from "./components/wrapper"
 import { Providers } from "./providers/app-providers"
 
 const App = () => {
   return (
     <Providers>
-      <Editor />
+      <Wrapper />
     </Providers>
   )
 }

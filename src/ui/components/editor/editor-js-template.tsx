@@ -14,6 +14,7 @@ export default memo(() => {
             editor={editor}
             onChange={() => console.log("hello")}
             theme={theme}
+            className="h-full"
         />
     )
 })
