@@ -7,6 +7,7 @@ import {
   ResizablePanelGroup,
 } from "./ui/resizable";
 import { ScrollArea } from "./ui/scroll-area";
+import { WindowButtons } from "./window-buttons";
 
 export const Wrapper = () => {
   const notes = [];
@@ -36,6 +37,9 @@ export const Wrapper = () => {
         <ResizablePanel minSize={30}>
           <div className="h-10 px-2 w-full border-b-[.5px] border-b-stone-300 dark:border-b-stone-800 app-dragger flex justify-between items-center">
             <ModeToggle />
+              {
+                <WindowButtons />
+              }
           </div>
           <Editor />
         </ResizablePanel>
