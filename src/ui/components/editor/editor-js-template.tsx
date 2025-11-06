@@ -4,17 +4,20 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
 import { useTheme } from "../theme-provider";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default memo(() => {
     const editor = useCreateBlockNote();
     const { theme } = useTheme()
     
     return (
-        <BlockNoteView
-            editor={editor}
-            onChange={() => console.log("hello")}
-            theme={theme}
-            className="h-full"
-        />
+        <ScrollArea className="h-[calc(100%-40px)]">
+            <BlockNoteView
+                editor={editor}
+                onChange={() => console.log("hello")}
+                theme={theme}
+                className="h-full"
+            />
+        </ScrollArea>
     )
 })

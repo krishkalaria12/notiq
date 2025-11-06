@@ -1,7 +1,8 @@
 import { app, BrowserWindow } from "electron"
 import path from "path"
-import { ipcMainOn, isDev } from "./utils.js"
+import { ipcMainHandle, ipcMainOn, isDev } from "./utils.js"
 import { getPreloadPath } from "./path-resolver.js"
+import { delete_note, get_all_notes, get_note, set_note } from "./db/db.js"
 
 app.on(
     "ready",
@@ -18,6 +19,23 @@ app.on(
         } else {
             mainWindow.loadFile(path.join(app.getAppPath(), '/dist-react/index.html'))
         }
+
+        ipcMainHandle("getNote", async (payload) => {
+            const note = get_note(payload);
+            return note;
+        });
+
+        ipcMainHandle("deleteNote", (payload) => {
+            delete_note(payload);
+        });
+
+        ipcMainHandle("setNote", (payload) => {
+            set_note(payload);
+        });
+
+        ipcMainHandle("getNotes", () => {
+            get_all_notes();
+        });
         
         ipcMainOn("sendFrameAction", (payload) => {
             switch (payload) {
