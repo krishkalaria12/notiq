@@ -1,20 +1,6 @@
-type TNoteBlock = {
-  id: string;
-  type: string;
-  data: {
-    text: string;
-  };
-};
-
-type TNote = {
-  time: number;
-  blocks: TNoteBlock[];
-  version: string;
-};
-
 type Note = {
   id: number;
-  note: string | TNote;
+  note: string;
 };
 
 type FrameWindowAction = "CLOSE" | "MAXIMIZE" | "MINIMIZE";
@@ -25,6 +11,7 @@ type EventPayloadMapping = {
   getNotes: null;
   deleteNote: { note_id: number };
   setNote: Note;
+  createNote: { note_content: string };
 };
 
 type UnSubscribeFunction = () => void;
@@ -36,5 +23,6 @@ interface Window {
     getNotes: () => Promise<Note[]>;
     deleteNote: (payload: { note_id: number }) => Promise<void>;
     setNote: (note: Note) => Promise<void>;
+    createNote: (payload: { note_content: string }) => Promise<Note>;
   };
 }

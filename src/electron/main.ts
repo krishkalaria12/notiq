@@ -2,7 +2,7 @@ import { app, BrowserWindow } from "electron"
 import path from "path"
 import { ipcMainHandle, ipcMainOn, isDev } from "./utils.js"
 import { getPreloadPath } from "./path-resolver.js"
-import { delete_note, get_all_notes, get_note, set_note } from "./db/db.js"
+import { create_note, delete_note, get_all_notes, get_note, set_note } from "./db/db.js"
 
 app.on(
     "ready",
@@ -22,6 +22,11 @@ app.on(
 
         ipcMainHandle("getNote", async (payload) => {
             const note = get_note(payload);
+            return note;
+        });
+
+        ipcMainHandle("createNote", async (payload) => {
+            const note = create_note(payload.note_content);
             return note;
         });
 

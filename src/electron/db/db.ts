@@ -12,6 +12,20 @@ function create_notes_table() {
   `).run();
 }
 
+export async function create_note(noteContent: string): Promise<Note> {
+  create_notes_table();
+  const stmt = db.prepare(`
+    INSERT INTO notes (note)
+    VALUES (?)
+  `);
+  const result = stmt.run(JSON.stringify(noteContent));
+
+  return {
+    id: result.lastInsertRowid as number,
+    note: noteContent,
+  };
+}
+
 export async function set_note(data: Note): Promise<void> {
   create_notes_table();
   const stmt = db.prepare(`

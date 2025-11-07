@@ -1,9 +1,14 @@
 import EditorJsTemplate from './editor-js-template'
 
-const Editor = () => {
+interface editorProps {
+  note: string
+  setContent: (content: string) => void;
+}
+
+const Editor = ({ note, setContent }: editorProps) => {
   return (
     <div>
-        <EditorJsTemplate />
+      <EditorJsTemplate note={note} setContent={setContent} />
     </div>
   )
 }

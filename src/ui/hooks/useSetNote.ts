@@ -4,13 +4,15 @@ async function setNote(note_id: number, note: string) {
     return await window.electron.setNote({ id: note_id, note })
 }
 
-const queryClient = useQueryClient();
+export function useSetNote(){
+    const queryClient = useQueryClient();
 
-export function useDeleteNote(note_id: number, note: string){
     return useMutation({
-        mutationFn: () => setNote(note_id, note),
-        onSuccess: async () => {
+        mutationFn: ({ note_id, note }: { note_id: number; note: string }) =>
+            setNote(note_id, note),
+        onSuccess: async (_, { note_id }) => {
             await queryClient.invalidateQueries({ queryKey: ['get-note', note_id] })
+            await queryClient.invalidateQueries({ queryKey: ['get-notes'] })
         }
     })
 }

@@ -6,6 +6,7 @@ electron.contextBridge.exposeInMainWorld("electron", {
   getNotes: () => ipcInvoke("getNotes"),
   deleteNote: (payload) => ipcInvoke("deleteNote", payload),
   setNote: (payload) => ipcInvoke("setNote", payload),
+  createNote: (payload) => ipcInvoke("createNote", payload)
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(
