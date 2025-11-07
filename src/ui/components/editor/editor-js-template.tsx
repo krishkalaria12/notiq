@@ -3,7 +3,7 @@ import "@blocknote/core/fonts/inter.css";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/shadcn";
 import "@blocknote/shadcn/style.css";
-import { useTheme } from "../theme-provider";
+import { useTheme } from "../../providers/theme-provider";
 import { ScrollArea } from "../ui/scroll-area";
 
 export default memo(() => {
