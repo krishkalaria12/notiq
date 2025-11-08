@@ -24,3 +24,7 @@ dist-electron
 *.njsproj
 *.sln
 *.sw?
+
+notes.sql
+notes.sql-shm
+notes.sql-wal

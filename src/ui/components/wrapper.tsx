@@ -15,6 +15,7 @@ import EmptyUI from "./notes/empty-ui";
 import { NotesList } from "./notes/notes-list";
 import { useCreateNote } from "../hooks/useCreateNote";
 import { useSetNote } from "../hooks/useSetNote";
+import { useDeleteNote } from "../hooks/useDeleteNote";
 
 export const Wrapper = () => {
   const { data: notes, isLoading: allNotesLoading } = useGetNotes();
@@ -23,23 +24,30 @@ export const Wrapper = () => {
   const noteIdToLoad = selectedNoteId ?? notes?.[0]?.id;
   const { data: note, isLoading: singleNoteLoading } = useGetNote(noteIdToLoad!);
 
-  const { mutate: createNote } = useCreateNote();
+  const { mutate: createNote } = useCreateNote((newNote) => {
+    setSelectedNoteId(newNote.id);
+  });
   const { mutate: setNote } = useSetNote();
+  const { mutate: deleteNote } = useDeleteNote();
 
   const handleCreateNote = useCallback(() => {
-    createNote("New empty note");
+    createNote("");
   }, [createNote]);
+
+  const handleDeleteNote = useCallback(() => {
+    deleteNote(selectedNoteId!);
+  }, [selectedNoteId, deleteNote]);
 
   const handleSetNote = useCallback((content: string) => {
     if (selectedNoteId) {
-      setNote({ note_id: selectedNoteId, note: content })
+      setNote({ note_id: selectedNoteId, note: content });
     }
-  }, [selectedNoteId, setNote]);
+  },[selectedNoteId, setNote]);
 
   const handleChangeNote = useCallback((note_id: number) => {
     setSelectedNoteId(note_id)
   }, []);
-
+  
   if (allNotesLoading) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
@@ -66,12 +74,12 @@ export const Wrapper = () => {
             <span title="New note" onClick={handleCreateNote}>
               <PenBox className="text-stone-900 dark:text-stone-100 h-5 cursor-pointer w-5" />
             </span>
-            <span title="Delete note">
+            <span title="Delete note" onClick={handleDeleteNote}>
               <Trash className="text-stone-900 dark:text-stone-100 h-5 cursor-pointer [&:hover]:text-red-600 w-5 ml-2" />
             </span>
           </div>
           <ScrollArea className="h-[calc(100%-40px)]">
-            <NotesList changeNote={handleChangeNote} notes={notes} />
+            <NotesList selectedNote={selectedNoteId!} changeNote={handleChangeNote} notes={notes} />
           </ScrollArea>
         </ResizablePanel>
         <ResizableHandle />
@@ -87,7 +95,7 @@ export const Wrapper = () => {
               </span>
             </div>
           ) : note ? (
-            <Editor note={note.note} setContent={handleSetNote} />
+            <Editor key={note.id} note={note.note} setContent={handleSetNote} />
           ) : (
             <div className="flex items-center justify-center h-[calc(100%-40px)]">
               <span className="text-stone-600 dark:text-stone-400">

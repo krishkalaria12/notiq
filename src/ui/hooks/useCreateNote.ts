@@ -4,7 +4,7 @@ async function createNote(note_content: string): Promise<Note> {
   return await window.electron.createNote({ note_content });
 }
 
-export function useCreateNote() {
+export function useCreateNote(onSuccessCallback?: (note: Note) => void) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -14,6 +14,9 @@ export function useCreateNote() {
         newNote,
         ...oldNotes,
       ]);
+
+      if (onSuccessCallback) onSuccessCallback(newNote);
+      await queryClient.invalidateQueries({ queryKey: ["get-notes"] });
     },
   });
 }

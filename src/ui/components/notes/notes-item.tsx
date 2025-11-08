@@ -3,9 +3,10 @@ import { memo, useMemo } from "react";
 interface notesItemProps {
     note: Note;
     changeNote: (note_id: number) => void;
+    selectedNote: number;
 }
 
-export const NotesItem = memo(({ note, changeNote }: notesItemProps) => {
+export const NotesItem = memo(({ note, changeNote, selectedNote }: notesItemProps) => {
     // Memoize title and preview extraction to avoid recalculating on every render
     const { title, preview } = useMemo(() => {
         const plainText = note.note.replace(/<[^>]*>/g, '').trim();
@@ -23,7 +24,7 @@ export const NotesItem = memo(({ note, changeNote }: notesItemProps) => {
 
     return (
         <div
-            className="w-full p-4 rounded-2xl cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+            className={`w-full p-4 rounded-2xl cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 ${note.id == selectedNote && "bg-stone-100 dark:bg-stone-800"} transition-colors`}
             onClick={() => changeNote(note.id)}
         >
             <div className="font-bold text-md text-stone-900 dark:text-stone-100">{title}</div>

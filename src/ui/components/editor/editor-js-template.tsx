@@ -25,8 +25,12 @@ export default memo(({ note, setContent }: editorTempProps) => {
     }
 
     useEffect(() => {
-      onChange();
-    }, [])
+        async function loadInitialMarkdown() {
+        const blocks = await editor.tryParseMarkdownToBlocks(note);
+        editor.replaceBlocks(editor.document, blocks);
+        }
+        loadInitialMarkdown();
+    }, []);
     
     
     return (

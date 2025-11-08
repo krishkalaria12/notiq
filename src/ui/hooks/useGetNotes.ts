@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 async function getNotes(): Promise<Note[]> {
-  return window.electron.getNotes();
+  const resp = await window.electron.getNotes();
+
+  return resp;
 }
 
 export function useGetNotes() {
